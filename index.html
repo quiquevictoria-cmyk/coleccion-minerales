@@ -3,44 +3,69 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mi colección de minerales</title>
-<meta name="description" content="Fichas de los minerales, rocas y fósiles de mi colección: fórmula, dureza, yacimientos, usos, precio, creencias y curiosidades.">
+<title>Tesoros de la Tierra</title>
+<meta name="description" content="Mi colección de minerales, rocas y fósiles: fichas completas, orden por dureza y precio, y un test para aprender a reconocerlos.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#f6f3ee; --card:#fffdf9; --ink:#1f1d1a; --muted:#6b645a; --line:#e4ddd2;
   --accent:#2e5e4e; --accent-soft:#e3efe8; --warn:#8a3b12; --warn-soft:#fbeadf; --chip:#efe9df;
+  --ok:#1f7a4d; --ok-soft:#dff3e7; --bad:#b3261e; --bad-soft:#fbe3e1;
+  --gem1:#2e5e4e; --gem2:#7b4fa0; --gem3:#b8722c;
   --shadow:0 1px 2px rgba(0,0,0,.05),0 6px 18px rgba(0,0,0,.06);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#151412; --card:#1f1d1a; --ink:#f1ece4; --muted:#a59d90; --line:#34302a;
     --accent:#8fcfb3; --accent-soft:#1f3a30; --warn:#f0a77a; --warn-soft:#3a2418; --chip:#2a2723;
+    --ok:#7fd6a6; --ok-soft:#183a28; --bad:#f2958e; --bad-soft:#3d1d1a;
+    --gem1:#8fcfb3; --gem2:#c4a3e6; --gem3:#e8b278;
     --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.35);
   }
 }
 :root[data-theme="dark"]{
   --bg:#151412; --card:#1f1d1a; --ink:#f1ece4; --muted:#a59d90; --line:#34302a;
   --accent:#8fcfb3; --accent-soft:#1f3a30; --warn:#f0a77a; --warn-soft:#3a2418; --chip:#2a2723;
+  --ok:#7fd6a6; --ok-soft:#183a28; --bad:#f2958e; --bad-soft:#3d1d1a;
+  --gem1:#8fcfb3; --gem2:#c4a3e6; --gem3:#e8b278;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.35);
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif}
 .wrap{max-width:1180px;margin:0 auto;padding:0 16px}
-header{padding:40px 0 20px}
-h1{font-family:Fraunces,Georgia,serif;font-weight:700;font-size:clamp(30px,5vw,48px);line-height:1.1;margin:0 0 8px;letter-spacing:-.01em}
-.lead{color:var(--muted);max-width:720px;margin:0}
-.note{margin:18px 0 0;padding:12px 14px;border-radius:10px;background:var(--warn-soft);color:var(--ink);font-size:14px;max-width:820px}
+button{font:inherit}
+
+/* ---------- Cabecera ---------- */
+.hero{text-align:center;padding:56px 16px 28px}
+.gem{width:64px;height:64px;margin:0 auto 14px;display:block}
+.kicker{font:600 13px Inter,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.hero h1{font-family:Fraunces,Georgia,serif;font-weight:800;font-size:clamp(46px,10vw,104px);line-height:.95;letter-spacing:-.02em;margin:0;
+  background:linear-gradient(100deg,var(--gem1) 10%,var(--gem2) 55%,var(--gem3) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .sub{font-family:Fraunces,Georgia,serif;font-style:italic;font-size:clamp(18px,2.6vw,24px);margin:14px auto 0;max-width:640px}
+.stats{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;margin:24px 0 0}
+.stats div{text-align:center}
+.stats b{display:block;font:700 28px Fraunces,serif;color:var(--accent)}
+.stats span{font-size:13px;color:var(--muted)}
+.note{margin:24px auto 0;padding:12px 16px;border-radius:12px;background:var(--warn-soft);font-size:14px;max-width:820px;text-align:left}
 .note b{color:var(--warn)}
+.tabs{display:flex;justify-content:center;gap:8px;margin:28px 0 0;flex-wrap:wrap}
+.tab{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:10px 22px;border-radius:999px;font-weight:600;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* ---------- Barra de filtros ---------- */
 .bar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);padding:12px 0;border-bottom:1px solid var(--line)}
 .bar .wrap{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-#q{flex:1 1 240px;min-width:0;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:inherit}
+#q{flex:1 1 220px;min-width:0;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:inherit}
+select{padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:inherit}
 .chips{display:flex;gap:6px;flex-wrap:wrap}
 .chip{border:1px solid var(--line);background:var(--chip);color:var(--ink);padding:6px 12px;border-radius:999px;font:500 14px Inter,sans-serif;cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
 #count{color:var(--muted);font-size:14px;margin-left:auto}
+.theme{background:none;border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:8px 11px;cursor:pointer}
+
+/* ---------- Tarjetas ---------- */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;padding:22px 0 60px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;cursor:pointer;transition:transform .15s}
 .card:hover{transform:translateY(-2px)}
@@ -49,24 +74,30 @@ h1{font-family:Fraunces,Georgia,serif;font-weight:700;font-size:clamp(30px,5vw,4
 .ph img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .3s}
 .ph img.on{opacity:1}
 .ph .ini{position:absolute;inset:0;display:grid;place-items:center;font:700 44px Fraunces,serif;color:var(--muted);opacity:.5}
+.rank{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.65);color:#fff;font:600 13px Inter,sans-serif;padding:3px 9px;border-radius:999px}
 .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
 .body h2{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:21px;margin:0;line-height:1.2}
 .type{font-size:12px;font-weight:600;color:var(--accent);background:var(--accent-soft);padding:2px 8px;border-radius:6px;align-self:flex-start}
-.facts{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;font-size:13px;margin:2px 0}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;font-size:13px;margin:2px 0}
 .facts div span{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+.hbar{height:6px;border-radius:3px;background:var(--chip);overflow:hidden;margin-top:3px}
+.hbar i{display:block;height:100%;background:var(--accent)}
 .short{font-size:14px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin:0}
 .warnflag{font-size:12px;font-weight:600;color:var(--warn)}
-dialog{border:none;padding:0;border-radius:16px;max-width:760px;width:calc(100% - 24px);background:var(--card);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+
+/* ---------- Ficha completa ---------- */
+dialog{border:none;padding:0;border-radius:16px;max-width:780px;width:calc(100% - 24px);background:var(--card);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.35)}
 dialog::backdrop{background:rgba(0,0,0,.55)}
 .dimg{aspect-ratio:16/9;background:var(--chip);position:relative}
 .dimg img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .3s}
 .dimg img.on{opacity:1}
 .close{position:absolute;top:10px;right:10px;width:38px;height:38px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;font-size:22px;cursor:pointer}
 .dbody{padding:20px 22px 26px}
-.dbody h2{font-family:Fraunces,Georgia,serif;font-size:30px;margin:6px 0 4px}
+.dbody h2{font-family:Fraunces,Georgia,serif;font-size:32px;margin:6px 0 4px}
 .aka{color:var(--muted);font-size:14px;margin:0 0 12px}
-.dfacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0 6px}
+.dfacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:14px 0 6px}
 .dfacts div{background:var(--chip);border-radius:10px;padding:10px 12px;font-size:15px}
+.dfacts .wide{grid-column:1/-1}
 .dfacts span{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
 .sec h3{font:600 13px Inter,sans-serif;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:18px 0 4px}
 .sec p{margin:0}
@@ -75,125 +106,172 @@ dialog::backdrop{background:rgba(0,0,0,.55)}
 .sec.danger h3{color:var(--warn)}
 .credit{font-size:12px;color:var(--muted);margin-top:18px}
 .credit a{color:var(--muted)}
-footer{color:var(--muted);font-size:13px;padding:0 0 40px}
-.theme{background:none;border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:8px 10px;cursor:pointer;font:inherit}
-@media (max-width:520px){.dbody{padding:16px}.dbody h2{font-size:25px}}
+
+/* ---------- Test ---------- */
+#quiz{padding:28px 16px 70px}
+.qbox{max-width:640px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
+.qsetup{padding:26px}
+.qsetup h2,.qend h2{font-family:Fraunces,Georgia,serif;font-size:30px;margin:0 0 6px;text-align:center}
+.qsetup p{color:var(--muted);text-align:center;margin:0 0 20px}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.mode{border:2px solid var(--line);background:var(--bg);border-radius:14px;padding:16px;cursor:pointer;text-align:left;color:var(--ink)}
+.mode b{display:block;font:600 18px Fraunces,serif;margin-bottom:4px}
+.mode span{font-size:14px;color:var(--muted)}
+.mode[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.qrow{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin-bottom:18px}
+.btn{border:none;background:var(--accent);color:var(--bg);padding:12px 22px;border-radius:12px;font-weight:600;cursor:pointer}
+.btn.ghost{background:var(--chip);color:var(--ink)}
+.btn:disabled{opacity:.5;cursor:default}
+.center{text-align:center}
+.qimg{aspect-ratio:4/3;background:var(--chip);position:relative}
+.qimg img{width:100%;height:100%;object-fit:cover;display:block}
+.qimg .loading{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted)}
+.qtop{display:flex;justify-content:space-between;padding:12px 18px;font-size:14px;color:var(--muted);border-bottom:1px solid var(--line)}
+.qbody{padding:18px}
+.qbody h3{font:600 20px Fraunces,serif;margin:0 0 14px;text-align:center}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{border:2px solid var(--line);background:var(--bg);color:var(--ink);padding:14px 10px;border-radius:12px;cursor:pointer;font-weight:500}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt.ok,.fill.ok{border-color:var(--ok);background:var(--ok-soft)}
+.opt.bad,.fill.bad{border-color:var(--bad);background:var(--bad-soft)}
+.fillrow{display:flex;gap:8px}
+.fill{flex:1;min-width:0;padding:12px 14px;border:2px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);font:inherit}
+.fb{margin:14px 0 0;padding:12px 14px;border-radius:12px;font-size:15px}
+.fb.ok{background:var(--ok-soft)} .fb.bad{background:var(--bad-soft)}
+.fb a{color:inherit;font-weight:600}
+.qnav{display:flex;justify-content:flex-end;margin-top:14px}
+.qend{padding:30px 24px}
+.score{font:800 64px Fraunces,serif;color:var(--accent);text-align:center;margin:8px 0}
+.fails{margin:16px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.fails li{background:var(--chip);padding:4px 10px;border-radius:999px;font-size:14px;cursor:pointer}
+
+footer{color:var(--muted);font-size:13px;padding:0 16px 40px;text-align:center}
+[hidden]{display:none!important}
+@media (max-width:520px){.dbody{padding:16px}.dbody h2{font-size:26px}.modes{grid-template-columns:1fr}.opts{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header class="wrap">
-  <h1>Mi colección de minerales</h1>
-  <p class="lead">Una ficha por cada mineral, roca y fósil de la vitrina: qué es, cómo se reconoce, dónde aparece, para qué se usa, cuánto vale y lo que se cuenta de él. Toca cualquier ficha para verla completa.</p>
-  <p class="note"><b>A tener en cuenta:</b> los precios son orientativos para un ejemplar pequeño de colección. Las «creencias y terapias» recogen lo que dicen la tradición y la gemoterapia: no tienen respaldo científico y no sustituyen a ningún tratamiento médico. Algunas piezas son tóxicas: están marcadas con ⚠.</p>
-</header>
-<div class="bar">
-  <div class="wrap">
-    <input id="q" type="search" placeholder="Buscar mineral, uso, lugar…" aria-label="Buscar">
-    <div class="chips" id="chips"></div>
-    <span id="count"></span>
-    <button class="theme" id="theme" aria-label="Cambiar tema">◐</button>
+<header class="hero">
+  <svg class="gem" viewBox="0 0 64 64" aria-hidden="true">
+    <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--gem1)"/><stop offset=".55" stop-color="var(--gem2)"/><stop offset="1" stop-color="var(--gem3)"/></linearGradient></defs>
+    <path d="M14 8h36l12 16-30 34L2 24z" fill="url(#g)"/>
+    <path d="M2 24h60M14 8l8 16 10 34M50 8l-8 16-10 34M22 24l10-16 10 16" fill="none" stroke="var(--bg)" stroke-width="1.6" stroke-linejoin="round" opacity=".7"/>
+  </svg>
+  <p class="kicker">Mi colección de minerales, rocas y fósiles</p>
+  <h1>Tesoros de la Tierra</h1>
+  <p class="sub">Cada piedra de la vitrina, con su historia, sus secretos y lo que de ella se cuenta.</p>
+  <div class="stats" id="stats"></div>
+  <p class="note"><b>A tener en cuenta:</b> los precios son orientativos para un ejemplar pequeño de colección. Las «creencias y terapias» recogen lo que dicen la tradición y la gemoterapia: no tienen respaldo científico y no sustituyen a ningún tratamiento médico. Las piezas tóxicas están marcadas con ⚠.</p>
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="true" data-v="col">📚 Colección</button>
+    <button class="tab" role="tab" aria-selected="false" data-v="quiz">🎯 Test de reconocimiento</button>
   </div>
-</div>
-<main class="wrap"><div class="grid" id="grid"></div></main>
-<footer class="wrap">Fotos de referencia de Wikipedia / Wikimedia Commons (no son los ejemplares de la colección). Datos recopilados en noviembre de 2026.</footer>
+</header>
+
+<section id="col">
+  <div class="bar">
+    <div class="wrap">
+      <input id="q" type="search" placeholder="Buscar mineral, uso, lugar…" aria-label="Buscar">
+      <select id="sort" aria-label="Ordenar">
+        <option value="az">Orden alfabético</option>
+        <option value="hard">Dureza: de mayor a menor</option>
+        <option value="price">Precio: de mayor a menor</option>
+      </select>
+      <div class="chips" id="chips"></div>
+      <span id="count"></span>
+      <button class="theme" id="theme" aria-label="Cambiar tema claro u oscuro">◐</button>
+    </div>
+  </div>
+  <main class="wrap"><div class="grid" id="grid"></div></main>
+</section>
+
+<section id="quiz" hidden>
+  <div class="qbox" id="qbox"></div>
+</section>
+
+<footer>Fotos: ejemplares de la colección y fotos de referencia de Wikipedia / Wikimedia Commons. Datos recopilados en noviembre de 2026.</footer>
 
 <dialog id="dlg"><div id="dcontent"></div></dialog>
 
-<script src="data1.js?v=7"></script>
-<script src="data2.js?v=7"></script>
+<script src="data1.js?v=8"></script>
+<script src="data2.js?v=8"></script>
+<script src="data3.js?v=8"></script>
+<script src="fotos.js?v=8"></script>
 <script>
-const F = window.FICHAS.slice().sort((a,b)=>a.n.localeCompare(b.n,'es'));
+const ALL = window.FICHAS;
+const esc = s => String(s??'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm = s => String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9ñ ]/g,' ').replace(/\s+/g,' ').trim();
+const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
+
+// ---------- Cabecera: cifras ----------
+(function(){
+  const n=ALL.length, rocas=ALL.filter(e=>/Roca|Vidrio/.test(e.t)).length, fos=ALL.filter(e=>/Fósil/.test(e.t)).length;
+  document.getElementById('stats').innerHTML =
+    `<div><b>${n}</b><span>fichas</span></div><div><b>142</b><span>piezas en la vitrina</span></div><div><b>${rocas}</b><span>rocas y vidrios</span></div><div><b>${fos}</b><span>fósiles</span></div>`;
+})();
+
+// ---------- Pestañas ----------
+let quizStarted=false;
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected', x===t));
+  document.getElementById('col').hidden = t.dataset.v!=='col';
+  document.getElementById('quiz').hidden = t.dataset.v!=='quiz';
+  if(t.dataset.v==='quiz' && !quizStarted) quizSetup();
+});
+
+// ---------- Colección ----------
 const grid = document.getElementById('grid');
 const groups = [
   ['Todos', ()=>true],
-  ['Minerales', e=>/Mineral|Elemento|Mineraloide|Compuesto|Mezcla|Asociación/.test(e.t)],
+  ['Minerales', e=>/Mineral|Elemento|Mineraloide|Compuesto|Mezcla|Asociación|Cuarzo tratado|Material/.test(e.t)],
   ['Rocas', e=>/Roca|Vidrio/.test(e.t)],
-  ['Fósiles y orgánicos', e=>/Fósil|Orgánico|orgánico|Resina|animal/.test(e.t)],
+  ['Fósiles y orgánicos', e=>/Fósil|rgánico|Resina|animal/.test(e.t)],
   ['Tóxicos ⚠', e=>!!e.s && /tóxic|arsénico|plomo|mercurio|cobre/i.test(e.s)],
 ];
 let active = 0;
-const esc = s => String(s??'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const norm = s => String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
 
-// ---- Fotos desde Wikipedia (se cargan al vuelo y se recuerdan en el navegador) ----
-// Solo se guardan en caché las fotos encontradas; si una falla, se reintenta en la próxima visita.
-const KEY='min-img-v5';
-try{ localStorage.removeItem('min-img-v4'); }catch(e){}
-try{ localStorage.removeItem('min-img-v3'); }catch(e){}
-try{ localStorage.removeItem('min-img'); }catch(e){}
-const cacheId = e=>e.q||e.en;
-const cache = (()=>{ try{ return JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){ return {}; } })();
-const save = ()=>{ try{ localStorage.setItem(KEY, JSON.stringify(cache)); }catch(e){} };
-const pending = {};
-// Cola: como mucho 4 peticiones a la vez, para no saturar a Wikipedia
-let running=0; const queue=[];
-function limit(fn){ return new Promise(res=>{ queue.push(()=>fn().then(res,()=>res(null))); pump(); }); }
-function pump(){ while(running<4 && queue.length){ running++; const job=queue.shift(); job().finally(()=>{ running--; pump(); }); } }
-async function getJSON(u){ const r=await fetch(u); if(!r.ok) throw new Error(r.status); return r.json(); }
-async function lookup(e){
-  // 0) Si la ficha tiene búsqueda propia (q), se busca la foto directamente en Wikimedia Commons
-  if(e.q){
-    const c='https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrnamespace=6&gsrlimit=8&prop=imageinfo&iiprop=url|mime&iiurlwidth=500&gsrsearch='+encodeURIComponent('filetype:bitmap '+e.q);
-    try{ const j=await getJSON(c); const ps=j.query?Object.values(j.query.pages).sort((a,b)=>a.index-b.index):[];
-         const p=ps.find(x=>x.imageinfo&&/jpeg|png/.test(x.imageinfo[0].mime));
-         if(p) return {src:p.imageinfo[0].thumburl, page:p.imageinfo[0].descriptionurl, commons:true}; }catch(err){}
-  }
-  // 1) API de Wikipedia: imagen principal del artículo, en anchura estándar (500 px)
-  const u='https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&redirects=1&prop=pageimages|info&inprop=url&piprop=thumbnail&pithumbsize=500&titles='+encodeURIComponent(e.en);
-  try{ const j=await getJSON(u); const p=j.query&&Object.values(j.query.pages)[0];
-       if(p&&p.thumbnail) return {src:p.thumbnail.source, page:p.fullurl}; }catch(err){}
-  // 2) Si el artículo no tiene imagen, búsqueda por nombre
-  const s='https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrlimit=3&prop=pageimages|info&inprop=url&piprop=thumbnail&pithumbsize=500&gsrsearch='+encodeURIComponent(e.en+' mineral');
-  try{ const j=await getJSON(s); const ps=j.query?Object.values(j.query.pages).sort((a,b)=>a.index-b.index):[];
-       const p=ps.find(x=>x.thumbnail); if(p) return {src:p.thumbnail.source, page:p.fullurl}; }catch(err){}
-  return null;
-}
-function imageFor(e){
-  if (e.img) return Promise.resolve({src:e.img, own:true});
-  const k=cacheId(e);
-  if (cache[k]) return Promise.resolve(cache[k]);
-  if (!pending[k]) pending[k] = limit(()=>lookup(e)).then(r=>{ if(r){ cache[k]=r; save(); } delete pending[k]; return r; });
-  return pending[k];
-}
-function fill(img, e){
-  imageFor(e).then(r=>{ if(!r) return;
-    img.onload=()=>img.classList.add('on');
-    img.onerror=()=>{ delete cache[cacheId(e)]; save(); };
-    img.src = r.src; });
-}
-
-function card(e, i){
+function card(e, rank){
   const el = document.createElement('article');
-  el.className='card'; el.tabIndex=0; el.dataset.i=i;
+  el.className='card'; el.tabIndex=0;
+  const sort = document.getElementById('sort').value;
+  const badge = sort==='hard' ? `${rank}º · dureza ${esc(e.d.split(' ')[0])}` : sort==='price' ? `${rank}º · ${e.pv?'≈ '+e.pv+' €':'sin precio'}` : '';
   el.innerHTML = `
-    <div class="ph"><div class="ini">${esc(e.n[0])}</div><img alt="${esc(e.n)}" loading="lazy"></div>
+    <div class="ph"><div class="ini">${esc(e.n[0])}</div><img alt="${esc(e.n)}" loading="lazy">${badge?`<span class="rank">${badge}</span>`:''}</div>
     <div class="body">
       <span class="type">${esc(e.t)}</span>
       <h2>${esc(e.n)}</h2>
       <div class="facts">
         <div><span>Fórmula</span>${esc(e.f)}</div>
-        <div><span>Dureza</span>${esc(e.d)}</div>
+        <div><span>Dureza</span>${esc(e.d.replace(/ \(.*\)/,''))}${e.dn?`<div class="hbar"><i style="width:${Math.min(100,e.dn/10*100)}%"></i></div>`:''}</div>
+        <div><span>Color</span>${esc(e.co||'—')}</div>
+        <div><span>Precio</span>${e.pv?'≈ '+e.pv+' €':'—'}</div>
       </div>
       <p class="short">${esc(e.c)}</p>
       ${e.s?'<span class="warnflag">⚠ Ver precauciones</span>':''}
     </div>`;
   el.addEventListener('click', ()=>openFicha(e));
   el.addEventListener('keydown', ev=>{ if(ev.key==='Enter'||ev.key===' '){ ev.preventDefault(); openFicha(e);} });
+  el._e = e;
   return el;
 }
-
 const io = 'IntersectionObserver' in window ? new IntersectionObserver(ents=>{
-  ents.forEach(en=>{ if(en.isIntersecting){ const c=en.target; io.unobserve(c); fill(c.querySelector('img'), F[c.dataset.i]); } });
+  ents.forEach(en=>{ if(en.isIntersecting){ const c=en.target; io.unobserve(c); fill(c.querySelector('img'), c._e); } });
 },{rootMargin:'300px'}) : null;
 
+function sorted(){
+  const s=document.getElementById('sort').value, a=ALL.slice();
+  if(s==='hard') return a.sort((x,y)=>(y.dn||0)-(x.dn||0) || x.n.localeCompare(y.n,'es'));
+  if(s==='price') return a.sort((x,y)=>(y.pv||0)-(x.pv||0) || x.n.localeCompare(y.n,'es'));
+  return a.sort((x,y)=>x.n.localeCompare(y.n,'es'));
+}
 function render(){
   const q = norm(document.getElementById('q').value);
-  grid.innerHTML='';
-  let n=0;
-  F.forEach((e,i)=>{
+  grid.innerHTML=''; let n=0, rank=0;
+  sorted().forEach(e=>{
+    rank++;
     if(!groups[active][1](e)) return;
-    if(q && !norm([e.n,e.aka,e.t,e.o,e.u,e.c,e.m,e.x].join(' ')).includes(q)) return;
-    const c = card(e,i); grid.appendChild(c); n++;
+    if(q && !norm([e.n,e.aka,e.t,e.o,e.u,e.c,e.m,e.x,e.co].join(' ')).includes(q)) return;
+    const c = card(e,rank); grid.appendChild(c); n++;
     io ? io.observe(c) : fill(c.querySelector('img'), e);
   });
   document.getElementById('count').textContent = n+' fichas';
@@ -211,21 +289,29 @@ function openFicha(e){
       <div class="dfacts">
         <div><span>Fórmula química</span>${esc(e.f)}</div>
         <div><span>Dureza (Mohs)</span>${esc(e.d)}</div>
-        <div><span>Precio orientativo</span>${esc(e.p)}</div>
+        <div><span>Densidad</span>${esc(e.g&&e.g!=='—'?e.g+' g/cm³':'—')}</div>
+        <div><span>Sistema cristalino</span>${esc(e.sc||'—')}</div>
+        <div><span>Color</span>${esc(e.co||'—')}</div>
+        <div><span>Brillo</span>${esc(e.b||'—')}</div>
+        <div><span>Raya</span>${esc(e.r||'—')}</div>
+        <div class="wide"><span>Precio orientativo</span>${esc(e.p)}</div>
       </div>
       ${sec('Características y propiedades',e.c)}
       ${sec('Dónde se encuentra',e.o)}
       ${sec('Usos',e.u)}
       ${sec('Curiosidades',e.x)}
+      ${sec('Cuidados y conservación',e.cui)}
       ${sec('Creencias, terapias y propiedades atribuidas',e.m,'belief')}
       ${sec('⚠ Precauciones',e.s,'danger')}
       <p class="credit" id="credit"></p>
     </div>`;
   const img = dlg.querySelector('.dimg img');
-  imageFor(e).then(r=>{ if(r){ img.onload=()=>img.classList.add('on'); img.src=r.src; document.getElementById('credit').innerHTML = `Foto de referencia: <a href="${esc(r.page||'#')}" target="_blank" rel="noopener">${r.commons?'Wikimedia Commons':'Wikipedia'}</a>`;
-    if(r.own) document.getElementById('credit').textContent='Foto: ejemplar de la colección';; } });
+  imageFor(e).then(r=>{ if(!r) return; img.onload=()=>img.classList.add('on'); img.src=r.src;
+    const c=document.getElementById('credit');
+    if(r.own) c.textContent='Foto: ejemplar de la colección';
+    else c.innerHTML=`Foto de referencia: <a href="${esc(r.page||'#')}" target="_blank" rel="noopener">${r.commons?'Wikimedia Commons':'Wikipedia'}</a>`; });
   dlg.querySelector('.close').onclick=()=>dlg.close();
-  dlg.showModal(); dlg.scrollTop=0;
+  if(!dlg.open) dlg.showModal(); dlg.scrollTop=0;
 }
 dlg.addEventListener('click', ev=>{ if(ev.target===dlg) dlg.close(); });
 
@@ -235,12 +321,100 @@ groups.forEach((g,i)=>{ const b=document.createElement('button'); b.className='c
   b.onclick=()=>{ active=i; [...chips.children].forEach((c,j)=>c.setAttribute('aria-pressed',j===i)); render(); };
   chips.appendChild(b); });
 document.getElementById('q').addEventListener('input', render);
+document.getElementById('sort').addEventListener('change', render);
 document.getElementById('theme').onclick=()=>{
   const r=document.documentElement; const dark = r.dataset.theme ? r.dataset.theme==='dark' : matchMedia('(prefers-color-scheme: dark)').matches;
   r.dataset.theme = dark?'light':'dark'; try{localStorage.setItem('min-theme',r.dataset.theme);}catch(e){}
 };
 try{ const t=localStorage.getItem('min-theme'); if(t) document.documentElement.dataset.theme=t; }catch(e){}
 render();
+
+// ---------- Test de reconocimiento ----------
+const qbox = document.getElementById('qbox');
+const POOL = ALL.filter(e=>!['Caballito de mar','Geoda de pirita (probable)'].includes(e.n));
+const Q={mode:'choice', total:10};
+
+function answers(e){ // nombres válidos para el modo escribir
+  const list=[e.n, e.n.replace(/\s*\(.*?\)\s*/g,' ')];
+  if(e.aka) e.aka.split('·').forEach(a=>list.push(a.replace(/\(.*?\)|«|»|Etiqueta/g,' ')));
+  return [...new Set(list.map(norm).filter(x=>x.length>2))];
+}
+function lev(a,b){ const m=a.length,n=b.length; const d=Array.from({length:m+1},(_,i)=>[i]); for(let j=1;j<=n;j++) d[0][j]=j;
+  for(let i=1;i<=m;i++) for(let j=1;j<=n;j++) d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1)); return d[m][n]; }
+function isRight(input,e){ const x=norm(input); if(!x) return false;
+  return answers(e).some(a=> a===x || (a.length>=6 && lev(a,x)<=Math.floor(a.length/6)+1)); }
+
+function quizSetup(){
+  quizStarted=true;
+  qbox.innerHTML = `<div class="qsetup">
+    <h2>¿Sabes reconocerlos?</h2>
+    <p>Aparece la foto de una pieza y tienes que decir cuál es.</p>
+    <div class="modes">
+      <button class="mode" data-m="choice" aria-pressed="${Q.mode==='choice'}"><b>🔘 Cuatro opciones</b><span>Elige la respuesta correcta entre cuatro nombres.</span></button>
+      <button class="mode" data-m="fill" aria-pressed="${Q.mode==='fill'}"><b>✍️ Escribir el nombre</b><span>Escribe el nombre tú. Se perdonan tildes y pequeñas faltas.</span></button>
+    </div>
+    <div class="qrow"><label for="qn">Preguntas:</label>
+      <select id="qn"><option value="10">10</option><option value="20">20</option><option value="40">40</option><option value="${POOL.length}">Todas (${POOL.length})</option></select></div>
+    <div class="center"><button class="btn" id="qgo">Empezar</button></div>
+  </div>`;
+  qbox.querySelector('#qn').value=String(Q.total);
+  qbox.querySelectorAll('.mode').forEach(b=>b.onclick=()=>{ Q.mode=b.dataset.m; qbox.querySelectorAll('.mode').forEach(x=>x.setAttribute('aria-pressed',x===b)); });
+  qbox.querySelector('#qgo').onclick=()=>{ Q.total=+qbox.querySelector('#qn').value; startQuiz(); };
+}
+function startQuiz(){ Q.list = shuffle(POOL); Q.i=0; Q.ok=0; Q.asked=0; Q.fails=[]; nextQ(); }
+async function nextQ(){
+  if(Q.asked>=Q.total || Q.i>=Q.list.length) return endQuiz();
+  const e = Q.list[Q.i++];
+  qbox.innerHTML = `<div class="qtop"><span>Pregunta ${Q.asked+1} de ${Math.min(Q.total,POOL.length)}</span><span>Aciertos: ${Q.ok}</span></div>
+    <div class="qimg"><div class="loading">Cargando foto…</div></div><div class="qbody"></div>`;
+  const r = await imageFor(e);
+  if(!r) return nextQ(); // sin foto: se salta
+  const img = new Image(); img.alt='¿Qué mineral es?';
+  const loaded = await new Promise(res=>{ img.onload=()=>res(true); img.onerror=()=>res(false); img.src=r.src; });
+  if(!loaded) return nextQ();
+  Q.asked++;
+  const box=qbox.querySelector('.qimg'); box.innerHTML=''; box.appendChild(img);
+  const body=qbox.querySelector('.qbody');
+  if(Q.mode==='choice'){
+    // distractores: preferentemente del mismo tipo y sin nombres que empiecen igual
+    const first=e.n.split(' ')[0];
+    const same = shuffle(POOL.filter(x=>x!==e && x.t===e.t));
+    const rest = shuffle(POOL.filter(x=>x!==e && x.t!==e.t));
+    const opts = shuffle([e, ...[...same,...rest].filter(x=>x.n.split(' ')[0]!==first).slice(0,3)]);
+    body.innerHTML = `<h3>¿Qué es?</h3><div class="opts">${opts.map((o,k)=>`<button class="opt" data-k="${k}">${esc(o.n)}</button>`).join('')}</div><div id="fb"></div>`;
+    body.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+      const good=opts[+b.dataset.k]===e;
+      body.querySelectorAll('.opt').forEach((x,k)=>{ x.disabled=true; if(opts[k]===e) x.classList.add('ok'); });
+      if(!good) b.classList.add('bad');
+      feedback(good,e);
+    });
+  } else {
+    body.innerHTML = `<h3>¿Cómo se llama?</h3><form class="fillrow" id="ff"><input class="fill" id="fi" autocomplete="off" autocapitalize="off" placeholder="Escribe el nombre…"><button class="btn">Comprobar</button></form><div id="fb"></div>`;
+    const fi=body.querySelector('#fi'); fi.focus();
+    body.querySelector('#ff').onsubmit=ev=>{ ev.preventDefault(); if(fi.disabled) return;
+      const good=isRight(fi.value,e); fi.disabled=true; fi.classList.add(good?'ok':'bad'); body.querySelector('#ff .btn').disabled=true;
+      feedback(good,e); };
+  }
+}
+function feedback(good,e){
+  if(good) Q.ok++; else Q.fails.push(e);
+  qbox.querySelector('.qtop span:last-child').textContent='Aciertos: '+Q.ok;
+  const fb=qbox.querySelector('#fb');
+  fb.innerHTML = `<p class="fb ${good?'ok':'bad'}">${good?'✅ ¡Correcto! Es <b>'+esc(e.n)+'</b>.':'❌ Era <b>'+esc(e.n)+'</b>.'} ${esc(e.x.split('. ')[0].replace(/\.$/,''))}. <a href="#" id="seef">Ver ficha</a></p>
+    <div class="qnav"><button class="btn" id="qnext">${Q.asked>=Q.total?'Ver resultado':'Siguiente →'}</button></div>`;
+  fb.querySelector('#seef').onclick=ev=>{ ev.preventDefault(); openFicha(e); };
+  const nb=fb.querySelector('#qnext'); nb.onclick=nextQ; nb.focus();
+}
+function endQuiz(){
+  const pct = Q.asked? Math.round(Q.ok/Q.asked*100):0;
+  const msg = pct>=90?'¡Eres todo un gemólogo! 💎': pct>=70?'¡Muy bien! Conoces tu colección.': pct>=40?'No está mal. ¡Repasa los fallos!':'Toca repasar la vitrina 😉';
+  qbox.innerHTML = `<div class="qend"><h2>Resultado</h2><div class="score">${Q.ok} / ${Q.asked}</div><p class="center">${msg}</p>
+    ${Q.fails.length?`<p class="center" style="color:var(--muted);font-size:14px;margin-top:18px">Repasa estas fichas:</p><ul class="fails">${Q.fails.map((f,k)=>`<li data-k="${k}">${esc(f.n)}</li>`).join('')}</ul>`:''}
+    <div class="qrow" style="margin-top:22px"><button class="btn" id="again">Otra vez</button><button class="btn ghost" id="cfg">Cambiar modo</button></div></div>`;
+  qbox.querySelectorAll('.fails li').forEach(li=>li.onclick=()=>openFicha(Q.fails[+li.dataset.k]));
+  qbox.querySelector('#again').onclick=startQuiz;
+  qbox.querySelector('#cfg').onclick=quizSetup;
+}
 </script>
 </body>
 </html>
