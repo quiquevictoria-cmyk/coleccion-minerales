@@ -99,8 +99,8 @@ footer{color:var(--muted);font-size:13px;padding:0 0 40px}
 
 <dialog id="dlg"><div id="dcontent"></div></dialog>
 
-<script src="data1.js?v=4"></script>
-<script src="data2.js?v=4"></script>
+<script src="data1.js?v=5"></script>
+<script src="data2.js?v=5"></script>
 <script>
 const F = window.FICHAS.slice().sort((a,b)=>a.n.localeCompare(b.n,'es'));
 const grid = document.getElementById('grid');
@@ -117,7 +117,8 @@ const norm = s => String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerC
 
 // ---- Fotos desde Wikipedia (se cargan al vuelo y se recuerdan en el navegador) ----
 // Solo se guardan en caché las fotos encontradas; si una falla, se reintenta en la próxima visita.
-const KEY='min-img-v4';
+const KEY='min-img-v5';
+try{ localStorage.removeItem('min-img-v4'); }catch(e){}
 try{ localStorage.removeItem('min-img-v3'); }catch(e){}
 try{ localStorage.removeItem('min-img'); }catch(e){}
 const cacheId = e=>e.q||e.en;
@@ -132,7 +133,7 @@ async function getJSON(u){ const r=await fetch(u); if(!r.ok) throw new Error(r.s
 async function lookup(e){
   // 0) Si la ficha tiene búsqueda propia (q), se busca la foto directamente en Wikimedia Commons
   if(e.q){
-    const c='https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrnamespace=6&gsrlimit=8&prop=imageinfo&iiprop=url|mime&iiurlwidth=500&gsrsearch='+encodeURIComponent(e.q);
+    const c='https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrnamespace=6&gsrlimit=8&prop=imageinfo&iiprop=url|mime&iiurlwidth=500&gsrsearch='+encodeURIComponent('filetype:bitmap '+e.q);
     try{ const j=await getJSON(c); const ps=j.query?Object.values(j.query.pages).sort((a,b)=>a.index-b.index):[];
          const p=ps.find(x=>x.imageinfo&&/jpeg|png/.test(x.imageinfo[0].mime));
          if(p) return {src:p.imageinfo[0].thumburl, page:p.imageinfo[0].descriptionurl, commons:true}; }catch(err){}
