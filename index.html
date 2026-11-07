@@ -99,8 +99,8 @@ footer{color:var(--muted);font-size:13px;padding:0 0 40px}
 
 <dialog id="dlg"><div id="dcontent"></div></dialog>
 
-<script src="data1.js?v=5"></script>
-<script src="data2.js?v=5"></script>
+<script src="data1.js?v=6"></script>
+<script src="data2.js?v=6"></script>
 <script>
 const F = window.FICHAS.slice().sort((a,b)=>a.n.localeCompare(b.n,'es'));
 const grid = document.getElementById('grid');
@@ -149,6 +149,7 @@ async function lookup(e){
   return null;
 }
 function imageFor(e){
+  if (e.img) return Promise.resolve({src:e.img, own:true});
   const k=cacheId(e);
   if (cache[k]) return Promise.resolve(cache[k]);
   if (!pending[k]) pending[k] = limit(()=>lookup(e)).then(r=>{ if(r){ cache[k]=r; save(); } delete pending[k]; return r; });
@@ -221,7 +222,8 @@ function openFicha(e){
       <p class="credit" id="credit"></p>
     </div>`;
   const img = dlg.querySelector('.dimg img');
-  imageFor(e).then(r=>{ if(r){ img.onload=()=>img.classList.add('on'); img.src=r.src; document.getElementById('credit').innerHTML = `Foto de referencia: <a href="${esc(r.page||'#')}" target="_blank" rel="noopener">${r.commons?'Wikimedia Commons':'Wikipedia'}</a>`; } });
+  imageFor(e).then(r=>{ if(r){ img.onload=()=>img.classList.add('on'); img.src=r.src; document.getElementById('credit').innerHTML = `Foto de referencia: <a href="${esc(r.page||'#')}" target="_blank" rel="noopener">${r.commons?'Wikimedia Commons':'Wikipedia'}</a>`;
+    if(r.own) document.getElementById('credit').textContent='Foto: ejemplar de la colección';; } });
   dlg.querySelector('.close').onclick=()=>dlg.close();
   dlg.showModal(); dlg.scrollTop=0;
 }
