@@ -116,29 +116,38 @@ const esc = s => String(s??'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>
 const norm = s => String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
 
 // ---- Fotos desde Wikipedia (se cargan al vuelo y se recuerdan en el navegador) ----
-const cache = (()=>{ try{ return JSON.parse(localStorage.getItem('min-img')||'{}'); }catch(e){ return {}; } })();
-const save = ()=>{ try{ localStorage.setItem('min-img', JSON.stringify(cache)); }catch(e){} };
-async function imageFor(e){
-  if (cache[e.en] !== undefined) return cache[e.en];
-  let r = null;
-  try{
-    const res = await fetch('https://en.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(e.en.replace(/ /g,'_')));
-    if (res.ok){ const j = await res.json();
-      const t = j.thumbnail || j.originalimage;
-      if (t) r = {src:t.source.replace(/\/\d+px-/,'/640px-'), page:j.content_urls?.desktop?.page}; }
-  }catch(err){}
-  if (!r){
-    try{
-      const u = 'https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrlimit=1&prop=pageimages|info&inprop=url&piprop=thumbnail&pithumbsize=640&format=json&origin=*&gsrsearch='+encodeURIComponent(e.en+' mineral');
-      const j = await (await fetch(u)).json();
-      const p = j.query && Object.values(j.query.pages)[0];
-      if (p && p.thumbnail) r = {src:p.thumbnail.source, page:p.fullurl};
-    }catch(err){}
-  }
-  cache[e.en] = r; save(); return r;
+// Solo se guardan en caché las fotos encontradas; si una falla, se reintenta en la próxima visita.
+const KEY='min-img-v3';
+try{ localStorage.removeItem('min-img'); }catch(e){}
+const cache = (()=>{ try{ return JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){ return {}; } })();
+const save = ()=>{ try{ localStorage.setItem(KEY, JSON.stringify(cache)); }catch(e){} };
+const pending = {};
+// Cola: como mucho 4 peticiones a la vez, para no saturar a Wikipedia
+let running=0; const queue=[];
+function limit(fn){ return new Promise(res=>{ queue.push(()=>fn().then(res,()=>res(null))); pump(); }); }
+function pump(){ while(running<4 && queue.length){ running++; const job=queue.shift(); job().finally(()=>{ running--; pump(); }); } }
+async function getJSON(u){ const r=await fetch(u); if(!r.ok) throw new Error(r.status); return r.json(); }
+async function lookup(e){
+  // 1) API de Wikipedia: imagen principal del artículo, en anchura estándar (500 px)
+  const u='https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&redirects=1&prop=pageimages|info&inprop=url&piprop=thumbnail&pithumbsize=500&titles='+encodeURIComponent(e.en);
+  try{ const j=await getJSON(u); const p=j.query&&Object.values(j.query.pages)[0];
+       if(p&&p.thumbnail) return {src:p.thumbnail.source, page:p.fullurl}; }catch(err){}
+  // 2) Si el artículo no tiene imagen, búsqueda por nombre
+  const s='https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrlimit=3&prop=pageimages|info&inprop=url&piprop=thumbnail&pithumbsize=500&gsrsearch='+encodeURIComponent(e.en+' mineral');
+  try{ const j=await getJSON(s); const ps=j.query?Object.values(j.query.pages).sort((a,b)=>a.index-b.index):[];
+       const p=ps.find(x=>x.thumbnail); if(p) return {src:p.thumbnail.source, page:p.fullurl}; }catch(err){}
+  return null;
+}
+function imageFor(e){
+  if (cache[e.en]) return Promise.resolve(cache[e.en]);
+  if (!pending[e.en]) pending[e.en] = limit(()=>lookup(e)).then(r=>{ if(r){ cache[e.en]=r; save(); } delete pending[e.en]; return r; });
+  return pending[e.en];
 }
 function fill(img, e){
-  imageFor(e).then(r=>{ if(r){ img.src = r.src; img.onload=()=>img.classList.add('on'); } });
+  imageFor(e).then(r=>{ if(!r) return;
+    img.onload=()=>img.classList.add('on');
+    img.onerror=()=>{ delete cache[e.en]; save(); };
+    img.src = r.src; });
 }
 
 function card(e, i){
