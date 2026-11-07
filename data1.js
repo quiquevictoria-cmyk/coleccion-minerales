@@ -103,7 +103,7 @@ p:"5–20 € un cristal pequeño.",
 m:"Se asocia a la motivación, a controlar el apetito y a la claridad mental.",
 x:"Del griego apatao, «engañar», porque se confundía con otros minerales. Nuestros huesos y el esmalte de los dientes están hechos de un apatito (hidroxiapatito)."},
 
-{n:"Aqua Aura",img:"fotos/aqua-aura.jpg",aka:"Aqua Aura · Cuarzo aura",t:"Cuarzo tratado (artificial)",en:"Aqua aura quartz",
+{n:"Aqua Aura",img:"fotos/aqua-aura.jpg",aka:"Aqua Aura",t:"Cuarzo tratado (artificial)",en:"Aqua aura quartz",
 f:"SiO₂ recubierto con oro (u otros metales)",d:"7",
 c:"Cristal de cuarzo al que se le ha adherido al vacío y a unos 870 °C una capa finísima de oro, lo que le da un azul eléctrico iridiscente. Con titanio, niobio u otros metales se obtienen otros colores («cuarzo aura»).",
 o:"Es un tratamiento industrial, inventado en Estados Unidos en los años 80. El cuarzo de base suele ser de Arkansas o Brasil.",

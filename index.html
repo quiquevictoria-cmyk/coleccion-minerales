@@ -193,10 +193,10 @@ footer{color:var(--muted);font-size:13px;padding:0 16px 40px;text-align:center}
 
 <dialog id="dlg"><div id="dcontent"></div></dialog>
 
-<script src="data1.js?v=8"></script>
-<script src="data2.js?v=8"></script>
-<script src="data3.js?v=8"></script>
-<script src="fotos.js?v=8"></script>
+<script src="data1.js?v=9"></script>
+<script src="data2.js?v=9"></script>
+<script src="data3.js?v=9"></script>
+<script src="fotos.js?v=9"></script>
 <script>
 const ALL = window.FICHAS;
 const esc = s => String(s??'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -207,7 +207,7 @@ const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.
 (function(){
   const n=ALL.length, rocas=ALL.filter(e=>/Roca|Vidrio/.test(e.t)).length, fos=ALL.filter(e=>/Fósil/.test(e.t)).length;
   document.getElementById('stats').innerHTML =
-    `<div><b>${n}</b><span>fichas</span></div><div><b>142</b><span>piezas en la vitrina</span></div><div><b>${rocas}</b><span>rocas y vidrios</span></div><div><b>${fos}</b><span>fósiles</span></div>`;
+    `<div><b>${n}</b><span>fichas</span></div><div><b>143</b><span>piezas</span></div><div><b>${rocas}</b><span>rocas y vidrios</span></div><div><b>${fos}</b><span>fósiles</span></div>`;
 })();
 
 // ---------- Pestañas ----------
@@ -331,7 +331,7 @@ render();
 
 // ---------- Test de reconocimiento ----------
 const qbox = document.getElementById('qbox');
-const POOL = ALL.filter(e=>!['Caballito de mar','Geoda de pirita (probable)'].includes(e.n));
+const POOL = ALL.filter(e=>!['Caballito de mar'].includes(e.n));
 const Q={mode:'choice', total:10};
 
 function answers(e){ // nombres válidos para el modo escribir
