@@ -149,6 +149,8 @@ footer{color:var(--muted);font-size:13px;padding:0 16px 40px;text-align:center}
 [hidden]{display:none!important}
 @media (max-width:520px){.dbody{padding:16px}.dbody h2{font-size:26px}.modes{grid-template-columns:1fr}.opts{grid-template-columns:1fr}}
 </style>
+<script>window.track=function(n,t){try{if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:n,title:t||n,event:true})}catch(e){}};</script>
+<script data-goatcounter="https://quiquevictoria.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body>
 <header class="hero">
@@ -189,7 +191,7 @@ footer{color:var(--muted);font-size:13px;padding:0 16px 40px;text-align:center}
   <div class="qbox" id="qbox"></div>
 </section>
 
-<footer>Fotos: ejemplares de la colección y fotos de referencia de Wikipedia / Wikimedia Commons. Datos recopilados en noviembre de 2026.</footer>
+<footer>Fotos: ejemplares de la colección y fotos de referencia de Wikipedia / Wikimedia Commons. Datos recopilados en noviembre de 2026.<br><small>Se cuentan las visitas de forma anónima, sin cookies, con <a href="https://www.goatcounter.com/" target="_blank" rel="noopener">GoatCounter</a>.</small></footer>
 
 <dialog id="dlg"><div id="dcontent"></div></dialog>
 
@@ -280,6 +282,7 @@ function render(){
 const dlg = document.getElementById('dlg');
 function sec(t,v,cls=''){ return v?`<div class="sec ${cls}"><h3>${t}</h3><p>${esc(v)}</p></div>`:''; }
 function openFicha(e){
+  track('minerales-ficha/'+String(e.n||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''),'Minerales: ficha '+e.n);
   document.getElementById('dcontent').innerHTML = `
     <div class="dimg"><img alt="${esc(e.n)}"><button class="close" aria-label="Cerrar">×</button></div>
     <div class="dbody">
@@ -361,7 +364,7 @@ function quizSetup(){
   qbox.querySelectorAll('.mode').forEach(b=>b.onclick=()=>{ Q.mode=b.dataset.m; qbox.querySelectorAll('.mode').forEach(x=>x.setAttribute('aria-pressed',x===b)); });
   qbox.querySelector('#qgo').onclick=()=>{ Q.total=+qbox.querySelector('#qn').value; startQuiz(); };
 }
-function startQuiz(){ Q.list = shuffle(POOL); Q.i=0; Q.ok=0; Q.asked=0; Q.fails=[]; nextQ(); }
+function startQuiz(){ track('minerales-quiz','Minerales: test empezado'); Q.list = shuffle(POOL); Q.i=0; Q.ok=0; Q.asked=0; Q.fails=[]; nextQ(); }
 async function nextQ(){
   if(Q.asked>=Q.total || Q.i>=Q.list.length) return endQuiz();
   const e = Q.list[Q.i++];
@@ -406,6 +409,7 @@ function feedback(good,e){
   const nb=fb.querySelector('#qnext'); nb.onclick=nextQ; nb.focus();
 }
 function endQuiz(){
+  track('minerales-quiz-fin','Minerales: test terminado');
   const pct = Q.asked? Math.round(Q.ok/Q.asked*100):0;
   const msg = pct>=90?'¡Eres todo un gemólogo! 💎': pct>=70?'¡Muy bien! Conoces tu colección.': pct>=40?'No está mal. ¡Repasa los fallos!':'Toca repasar la vitrina 😉';
   qbox.innerHTML = `<div class="qend"><h2>Resultado</h2><div class="score">${Q.ok} / ${Q.asked}</div><p class="center">${msg}</p>
